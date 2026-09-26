@@ -3,40 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Şiir Vahası: Şiir Antolojisi - Standalone</title>
+  <title>Şiir Vahası: Dünya Şiir Antolojisi</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23fa520f' stroke='%2344403c' stroke-width='1.5'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system,BlinkMacSystemFont,Inter,sans-serif' font-weight='800' font-size='13' letter-spacing='-0.5'%3EMK%3C/text%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/mistral-theme.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c1917' stroke='%2344403c' stroke-width='1.5'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system,BlinkMacSystemFont,Inter,sans-serif' font-weight='800' font-size='13' letter-spacing='-0.5'%3EMK%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/style.css">
-  
+  <link rel="stylesheet" href="css/mistral-theme.css">
   <style>
-    :root { --mistral-ink: #1c1917; --mistral-slate: #78716c; --mistral-stone: #a8a29e; --mistral-hairline: #e7e5e4; --mistral-cream: #f5f5f4; --mistral-beige-deep: #d6d3d1; }
-    body { font-family: 'Inter', sans-serif; background-color: #fafaf9; color: var(--mistral-ink); }
-    h1, h2, .font-editorial { font-family: 'Newsreader', serif; }
+    :root {
+      --mistral-ink: #1c1917;
+      --mistral-slate: #78716c;
+      --mistral-stone: #a8a29e;
+      --mistral-hairline: #e7e5e4;
+      --mistral-cream: #f5f5f4;
+      --mistral-cream-deeper: #e7e5e4;
+      --mistral-cream-light: #fafaf9;
+      --mistral-beige-deep: #d6d3d1;
+      --mistral-orange: #fa520f;
+      --mistral-orange-deep: #e04400;
+    }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #fafaf9; color: var(--mistral-ink); }
+    h1, h2, h3, h4, .font-editorial { font-family: 'Newsreader', serif; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .font-sans { font-family: 'Inter', sans-serif; }
+    .bg-mistral-cream { background-color: var(--mistral-cream); }
+    .bg-mistral-cream-deeper { background-color: var(--mistral-cream-deeper); }
+    .bg-mistral-cream-light { background-color: var(--mistral-cream-light); }
     .text-mistral-ink { color: var(--mistral-ink); }
     .text-mistral-slate { color: var(--mistral-slate); }
     .text-mistral-stone { color: var(--mistral-stone); }
-    .bg-mistral-cream { background-color: var(--mistral-cream); }
+    .text-mistral-orange { color: var(--mistral-orange); }
+    .bg-mistral-orange { background-color: var(--mistral-orange); }
+    .bg-mistral-orange-deep { background-color: var(--mistral-orange-deep); }
+    .hover\\:bg-mistral-orange-deep:hover { background-color: var(--mistral-orange-deep) !important; }
+    .hover\\:bg-mistral-cream-deeper:hover { background-color: var(--mistral-cream-deeper) !important; }
     .border-mistral-hairline { border-color: var(--mistral-hairline); }
-    .bg-mistral-canvas { background-color: #0f172a; }
+    .border-mistral-beige-deep { border-color: var(--mistral-beige-deep); }
+    .border-mistral-orange { border-color: var(--mistral-orange); }
+    /* Görünür buton garantisi: turuncu butonlarda beyaz yazı */
+    button[class*="bg-mistral-orange"] { color: #ffffff !important; }
   </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 sm:p-8">
   <div class="max-w-6xl mx-auto">
-    <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-3">
-          <a href="https://github.com/melihkarasu" target="_blank" class="text-mistral-slate hover:text-teal-500 transition text-sm flex items-center gap-1">&larr; GitHub Profiline Dön</a>
-          <span class="text-mistral-stone">|</span>
-          <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-600 text-xs font-semibold">Open Source Edition</span>
+    <!-- Üst Başlık & Navigasyon -->
+      <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-3">
+            
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-normal font-editorial tracking-tight mt-1.5 text-mistral-ink flex items-center gap-2">
+            <span>📜</span> Şiir Vahası: Dünya Şiir Antolojisi
+          </h1>
+          <p class="text-mistral-slate text-sm mt-0.5 font-normal">
+            PoetryDB açık edebiyat arşivi ile Shakespeare, Poe, Dickinson ve yüzlerce usta şairin 3.000+ şiiri ve tipografik okuma odası.
+          </p>
         </div>
-        <h1 class="text-3xl sm:text-4xl font-normal font-editorial tracking-tight mt-1.5 text-mistral-ink flex items-center gap-2"><span>📜</span> Şiir Vahası: Şiir Antolojisi</h1>
+
+        <div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-mistral-hairline text-xs text-mistral-ink shadow-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+          <span class="font-medium" id="poetry-status">3.000+ Şiir Yayında</span>
+        </div>
       </div>
-    </div>
-    
+
+      <!-- KONTROL & ŞAİR SEÇİCİ PANEL -->
+      <div class="p-6 rounded-2xl bg-white border border-mistral-hairline shadow-sm mb-8 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+          <!-- Şair Arama -->
+          <div class="sm:col-span-8 relative">
+            <input 
+              type="text" 
+              id="search-author" 
+              placeholder="Şair adı arayın (örn: Shakespeare, Poe, Dickinson, Byron, Shelley, Keats)..." 
+              onkeydown="if(event.key==='Enter') searchAuthorPoems()"
+              class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white border border-mistral-hairline text-sm text-mistral-ink placeholder:text-mistral-stone focus:outline-none focus:border-mistral-orange transition">
+            <span class="absolute left-3.5 top-3 text-mistral-stone text-sm">✍️</span>
+          </div>
+          <div class="sm:col-span-4 flex gap-2">
+            <button 
+              type="button" 
+              onclick="searchAuthorPoems()" 
+              class="flex-1 py-2.5 px-3 rounded-md bg-mistral-orange hover:bg-mistral-orange-deep text-white font-medium text-xs transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>Şairin Şiirleri</span> &rarr;
+            </button>
+            <button 
+              type="button" 
+              onclick="loadRandomPoem()" 
+              title="Rastgele Bir Şiir Fısılda"
+              class="px-3.5 py-2.5 rounded-md text-mistral-ink font-boldbg-mistral-cream hover:bg-mistral-cream-deeper text-mistral-ink border border-mistral-beige-deep font-semibold text-xs transition shadow-xs flex items-center justify-center gap-1 cursor-pointer shrink-0">
+              <span>🎲</span> Rastgele
+            </button>
+          </div>
+        </div>
+
+        <!-- Hızlı Şair Seçimleri -->
+        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-mistral-hairline text-xs">
+          <span class="text-mistral-stone font-medium mr-1">Öne Çıkan Şairler:</span>
+          <button onclick="quickAuthor('William Shakespeare')" class="px-2.5 py-1 rounded-md text-mistral-ink font-boldbg-mistral-cream hover:bg-mistral-cream-deeper text-mistral-ink border border-mistral-beige-deep transition">🎭 W. Shakespeare</button>
+          <button onclick="quickAuthor('Edgar Allan Poe')" class="px-2.5 py-1 rounded-md text-mistral-ink font-boldbg-mistral-cream hover:bg-mistral-cream-deeper text-mistral-ink border border-mistral-beige-deep transition">🦅 Edgar Allan Poe</button>
+          <button onclick="quickAuthor('Emily Dickinson')" class="px-2.5 py-1 rounded-md text-mistral-ink font-boldbg-mistral-cream hover:bg-mistral-cream-deeper text-mistral-ink border border-mistral-beige-deep transition">🌸 Emily Dickinson</button>
+          <button onclick="quickAuthor('Lord Byron')" class="px-2.5 py-1 rounded-md text-mistral-ink font-boldbg-mistral-cream hover:bg-mistral-cream-deeper text-mistral-ink border border-mistral-beige-deep transition">🌊 Lord Byron</button>
+          <button onclick="quickAuthor('John Keats')" class="px-2.5 py-1 rounded-md text-mistral-ink font-boldbg-mistral-cream hover:bg-mistral-cream-deeper text-mistral-ink border border-mistral-beige-deep transition">🍂 John Keats</button>
+        </div>
+      </div>
+
+      <!-- ANA OKUMA SAYFASI (EDİTORYAL KİTAP FORMU) -->
+      <div id="poem-loading" class="py-16 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mistral-cream text-mistral-ink border border-mistral-beige-deep text-xs font-semibold">
+          <span class="w-2.5 h-2.5 rounded-full bg-mistral-orange animate-ping"></span>
+          <span>Dizeler antolojiden derleniyor...</span>
+        </div>
+      </div>
+
+      <div id="poem-content-card" class="hidden max-w-3xl mx-auto mb-16 space-y-6">
+        <div class="p-8 sm:p-12 rounded-2xl bg-white border border-mistral-hairline shadow-md relative overflow-hidden">
+          <!-- Dekoratif Sayfa Köşesi -->
+          <div class="flex items-center justify-between pb-6 border-b border-mistral-hairline">
+            <div>
+              <span class="text-xs font-bold text-mistral-orange uppercase tracking-wider block mb-1">DÜNYA ŞİİRİ</span>
+              <h2 class="text-2xl sm:text-4xl font-bold font-editorial text-mistral-ink" id="poem-title">Şiir Başlığı</h2>
+              <span class="text-sm font-semibold text-mistral-slate block mt-1" id="poem-author">Şair Adı</span>
+            </div>
+            <div class="text-right">
+              <span class="px-3 py-1 rounded-full bg-mistral-cream border border-mistral-beige-deep text-xs font-mono font-bold text-mistral-ink" id="poem-lines-count">
+                -- Dize
+              </span>
+            </div>
+          </div>
+
+          <!-- Dize Metni -->
+          <div class="py-8 px-2 sm:px-6">
+            <div id="poem-lines" class="font-editorial text-lg sm:text-xl text-mistral-ink leading-relaxed space-y-2 select-text italic text-center sm:text-left">
+              <!-- JS ile dizeler basılır -->
+            </div>
+          </div>
+
+          <!-- Aksiyon Araç Çubuğu -->
+          <div class="pt-6 border-t border-mistral-hairline flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-2">
+              <button onclick="copyPoemText()" class="px-3 py-1.5 rounded-lg text-mistral-ink font-boldbg-mistral-cream hover:bg-mistral-cream-deeper text-mistral-ink border border-mistral-beige-deep font-semibold transition flex items-center gap-1.5 cursor-pointer">
+                <span>📋</span> Şiiri Kopyala
+              </button>
+              <button onclick="savePoemToFavorites()" class="px-3 py-1.5 rounded-lg bg-white hover:bg-mistral-cream text-mistral-ink border border-mistral-hairline font-semibold transition flex items-center gap-1.5 cursor-pointer">
+                <span>⭐</span> Antolojime Ekle
+              </button>
+            </div>
+            <span class="text-mistral-stone font-mono text-[11px]">PoetryDB Açık Arşivi</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ŞAİRİN DİĞER ŞİİRLERİ LİSTESİ (Varsa) -->
+      <div id="author-poems-container" class="hidden mb-16 space-y-4">
+        <h3 class="text-xl font-bold font-editorial text-mistral-ink">Şairin Diğer Eserleri</h3>
+        <div id="author-poems-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- JS ile doldurulur -->
+        </div>
+      </div>
   </div>
+
+  <footer class="mt-16 text-center text-xs text-mistral-stone border-t border-mistral-hairline pt-6">
+    <p>Açık Kaynak Standalone Sürüm • Veriler: <a href="https://poetrydb.org/" target="_blank" rel="noopener" class="underline hover:text-mistral-ink">PoetryDB</a> • <a href="https://github.com/public-apis/public-apis" target="_blank" rel="noopener" class="underline hover:text-mistral-ink">Public APIs</a></p>
+  </footer>
+
+  <script src="js/app.js"></script>
 </body>
 </html>
