@@ -9,7 +9,7 @@ PoetryDB açık arşivi ile Shakespeare, Poe, Dickinson ve usta şairlerin 3.000
 
 ## 🚀 Hızlı Başlangıç
 1. Bu repoyu klonlayın.
-2.  dosyasını tarayıcıda açın.
+2. `index.html` dosyasını tarayıcıda açın.
 
 
 
