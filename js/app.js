@@ -175,10 +175,10 @@ function renderPoem(p) {
 // XSS güvenli HTML kaçışı (şiir satırları için)
 function escapeHtml(s) {
   return String(s || '')
-    .replace(/&/g, '&')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
-    .replace(/"/g, '"');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function copyPoemText() {
@@ -189,22 +189,117 @@ function copyPoemText() {
 
 function savePoemToFavorites() {
   if (!currentPoemData) return;
-  let favs = [];
-  try {
-    favs = JSON.parse(localStorage.getItem('siir_antolojim') || '[]');
-    if (!Array.isArray(favs)) favs = [];
-  } catch(e) { favs = []; }
+  const favs = getAnthology();
 
   if (!favs.some(x => x.title === currentPoemData.title)) {
     favs.unshift({ title: currentPoemData.title, author: currentPoemData.author, date: new Date().toLocaleDateString('tr-TR') });
-    localStorage.setItem('siir_antolojim', JSON.stringify(favs));
+    localStorage.setItem(ANTHOLOGY_KEY, JSON.stringify(favs));
     showToast('✓ "' + currentPoemData.title + '" antolojinize kaydedildi!');
+    renderMyAnthology();
   } else {
     showToast('Bu şiir zaten antolojinizde kayıtlı.');
   }
 }
 
-document.addEventListener('DOMContentLoaded', loadRandomPoem);
+// ===== ŞİİR ANTolojim (yerel koleksiyon) =====
+const ANTHOLOGY_KEY = '***';
+
+function getAnthology() {
+  let favs = [];
+  try {
+    favs = JSON.parse(localStorage.getItem(ANTHOLOGY_KEY) || '[]');
+    if (!Array.isArray(favs)) favs = [];
+  } catch(e) { favs = []; }
+  return favs;
+}
+
+function renderMyAnthology() {
+  const grid = document.getElementById('my-anthology-grid');
+  const empty = document.getElementById('my-anthology-empty');
+  const count = document.getElementById('my-anthology-count');
+  if (!grid || !empty || !count) return;
+
+  const favs = getAnthology();
+  count.innerText = String(favs.length);
+
+  if (favs.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  grid.innerHTML = favs.map((p, i) => `
+    <div class="p-4 rounded-xl bg-white border border-mistral-hairline hover:border-mistral-orange/40 hover:shadow-sm transition flex flex-col justify-between group">
+      <div>
+        <h4 class="font-bold text-sm font-editorial text-mistral-ink group-hover:text-mistral-orange transition truncate mb-1 cursor-pointer" onclick="openAnthologyItem(${i})">${escapeHtml(p.title)}</h4>
+        <span class="text-xs font-semibold text-mistral-slate block mb-2">${escapeHtml(p.author)}</span>
+      </div>
+      <div class="pt-2 border-t border-mistral-hairline flex items-center justify-between text-[11px] text-mistral-stone font-mono">
+        <span>${escapeHtml(p.date || '')}</span>
+        <span class="flex items-center gap-3">
+          <span class="text-mistral-orange font-bold font-sans cursor-pointer" onclick="openAnthologyItem(${i})">Oku →</span>
+          <span class="text-rose-400 hover:text-rose-600 cursor-pointer font-sans font-bold text-sm leading-none" title="Antolojiden çıkar" onclick="removeMyAnthologyItem(${i})">×</span>
+        </span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Kayıtlı şiir yalnızca başlık/şair/date saklar — tam metin PoetryDB'den yeniden çekilir
+async function openAnthologyItem(idx) {
+  const p = getAnthology()[idx];
+  if (!p) return;
+
+  const loading = document.getElementById('poem-loading');
+  const card = document.getElementById('poem-content-card');
+  const authorBox = document.getElementById('author-poems-container');
+
+  loading.innerHTML = LOADING_HTML;
+  loading.classList.remove('hidden');
+  card.classList.add('hidden');
+  authorBox.classList.add('hidden');
+  window.scrollTo({ top: 120, behavior: 'smooth' });
+
+  try {
+    const url = 'https://poetrydb.org/author/' + encodeURIComponent(p.author) + '/' + encodeURIComponent(p.title);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data && data.status === 404) throw new Error('şiir arşivde bulunamadı');
+    const poem = Array.isArray(data) ? data[0] : data;
+    renderPoem({
+      title: poem.title || p.title,
+      author: poem.author || p.author,
+      lines: poem.lines || [],
+      linecount: poem.linecount || (poem.lines ? poem.lines.length : 0)
+    });
+  } catch(err) {
+    console.error('openAnthologyItem error:', err);
+    loading.innerHTML = '<span class="text-rose-500 font-medium text-sm">Şiir açılamadı: ' + err.message + '</span>';
+  }
+}
+
+function removeMyAnthologyItem(idx) {
+  const favs = getAnthology();
+  const removed = favs.splice(idx, 1)[0];
+  localStorage.setItem(ANTHOLOGY_KEY, JSON.stringify(favs));
+  renderMyAnthology();
+  if (removed) showToast('"' + removed.title + '" antolojiden çıkarıldı.');
+}
+
+function clearMyAnthology() {
+  const favs = getAnthology();
+  if (favs.length === 0) { showToast('Antolojin zaten boş.'); return; }
+  if (!confirm('Antolojindeki ' + favs.length + ' şiirin tamamı silinecek. Emin misin?')) return;
+  localStorage.removeItem(ANTHOLOGY_KEY);
+  renderMyAnthology();
+  showToast('Antolojin temizlendi.');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderMyAnthology();
+  loadRandomPoem();
+});
 
 // Window globals for inline onclicks
 window.loadRandomPoem = loadRandomPoem;
@@ -213,3 +308,7 @@ window.quickAuthor = quickAuthor;
 window.renderPoemByIdx = renderPoemByIdx;
 window.copyPoemText = copyPoemText;
 window.savePoemToFavorites = savePoemToFavorites;
+window.renderMyAnthology = renderMyAnthology;
+window.openAnthologyItem = openAnthologyItem;
+window.removeMyAnthologyItem = removeMyAnthologyItem;
+window.clearMyAnthology = clearMyAnthology;
